@@ -122,10 +122,10 @@
       const feedback = document.getElementById("feedback");
 
       if (userAnswer === currentQuestion.formula) {
-        feedback.textContent = "正解！👍️";
+        feedback.textContent = "正解！🎉";
         feedback.style.color = "green";
       } else {
-        feedback.textContent = `不正解！👎️正しい答え: ${currentQuestion.formula}`;
+        feedback.textContent = `不正解。正しい答え: ${currentQuestion.formula}`;
         feedback.style.color = "red";
       }
     }
