@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>化学式クイズ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      width: 400px;
+      text-align: center;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    .question {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .input {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .button {
+      padding: 8px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 4px;
+    }
+    .submit-btn {
+      background-color: #3b82f6;
+      color: white;
+    }
+    .next-btn {
+      background-color: #e5e7eb;
+    }
+    .feedback {
+      font-size: 18px;
+      margin-top: 16px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="title">化学式クイズ</div>
+    <p>次の化合物の化学式を入力してください：</p>
+    <div class="question" id="question">読み込み中...</div>
+    <input type="text" id="answerInput" class="input" placeholder="化学式を入力" />
+    <div>
+      <button class="button submit-btn" id="submitBtn">回答</button>
+      <button class="button next-btn" id="nextBtn">次の問題</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const quizData = [
+        { name: "水", formula: "H₂O" },
+        { name: "アンモニア", formula: "NH₃" },
+        { name: "エタノール", formula: "C₂H₆O" },
+        { name: "二酸化炭素", formula: "CO₂" },
+        { name: "酢酸", formula: "CH₃COOH" },
+        { name: "炭酸", formula: "H₂CO₃" },
+        { name: "炭酸水素ナトリウム", formula: "NaHCO₃" },
+        { name: "炭酸ナトリウム", formula: "Na₂CO₃" },
+        { name: "硝酸", formula: "HNO₃" },
+        { name: "硝酸カリウム", formula: "KNO₃" },
+        { name: "酸化銅", formula: "CuO" },
+        { name: "酸化マグネシウム", formula: "MgO" },
+        { name: "酸化銀", formula: "Ag₂O" },
+        { name: "酸化鉄", formula: "FeO" },
+        { name: "酸化アルミニウム", formula: "Al₂O₃" },
+        { name: "水酸化ナトリウム", formula: "NaOH" },
+        { name: "水酸化カリウム", formula: "KOH" },
+        { name: "水酸化カルシウム", formula: "Ca(OH)₂" },
+        { name: "水酸化バリウム", formula: "Ba(OH)₂" },
+        { name: "塩化ナトリウム", formula: "NaCl" },
+        { name: "塩化水素", formula: "HCl" },
+        { name: "塩化銀", formula: "AgCl" },
+        { name: "塩化銅", formula: "CuCl₂" },
+        { name: "塩化アンモニウム", formula: "NH₄Cl" },
+        { name: "硫化鉄", formula: "FeS" },
+        { name: "硫化水素", formula: "H₂S" },
+        { name: "硫化銅", formula: "CuS" },
+        { name: "硫酸", formula: "H₂SO₄" },
+        { name: "硝酸バリウム", formula: "Ba(NO₃)₂" },
+      ];
+
+      const questionElement = document.getElementById("question");
+      const answerInput = document.getElementById("answerInput");
+      const feedbackElement = document.getElementById("feedback");
+      const submitBtn = document.getElementById("submitBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      let currentQuestion = {};
+
+      function nextQuestion() {
+        feedbackElement.textContent = "";
+        answerInput.value = "";
+        currentQuestion = quizData[Math.floor(Math.random() * quizData.length)];
+        questionElement.textContent = currentQuestion.name;
+        answerInput.focus();
+      }
+
+      function checkAnswer() {
+        const userAnswer = answerInput.value.trim();
+
+        if (userAnswer === "") {
+          feedbackElement.textContent = "回答を入力してください。";
+          feedbackElement.style.color = "orange";
+          return;
+        }
+
+        if (userAnswer === currentQuestion.formula) {
+          feedbackElement.textContent = "✅ 正解！";
+          feedbackElement.style.color = "green";
+        } else {
+          feedbackElement.textContent = `❌ 不正解。正しい答え: ${currentQuestion.formula}`;
+          feedbackElement.style.color = "red";
+        }
+      }
+
+      submitBtn.addEventListener("click", checkAnswer);
+      nextBtn.addEventListener("click", nextQuestion);
+      answerInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") checkAnswer();
+      });
+
+      // 初期表示
+      nextQuestion();
+    });
+  </script>
+</body>
+</html>
